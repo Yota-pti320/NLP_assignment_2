@@ -121,18 +121,17 @@ def output_identification(datafile: str, all_sent_output: List, method):
             writer.writerow("")
 
 
-def main(argv):
-    argv = sys.argv[1:]
-    
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
     if not argv:
-        argv = [0, "../data/en_ewt-up-dev.conllu", "rule"]
-
-    file_path = argv[1]
+        argv = ["../data/en_ewt-up-dev.conllu", "rule"]
+    file_path = argv[0]
     rows = read_row_as_list(file_path)
     sents = group_rows_by_sents(rows)
 
     # Choice for predicate identification: predgold or rule
-    method = argv[2]
+    method = argv[1]
 
     all_sent_output = []
     for sent in sents:
@@ -148,6 +147,6 @@ def main(argv):
 
     output_identification(file_path, all_sent_output, method)
 
-    
+
 if __name__ == "__main__":
-    main(argv)
+    main()
