@@ -122,8 +122,10 @@ def output_identification(datafile: str, all_sent_output: List, method):
 
 
 def main(argv):
+    argv = sys.argv[1:]
+    
     if not argv:
-        argv = sys.argv[1:]
+        argv = [0, "../data/en_ewt-up-dev.conllu", "rule"]
 
     file_path = argv[1]
     rows = read_row_as_list(file_path)
@@ -146,8 +148,6 @@ def main(argv):
 
     output_identification(file_path, all_sent_output, method)
 
-
-argv = [0, "../data/en_ewt-up-dev.conllu", "rule"]
-
+    
 if __name__ == "__main__":
     main(argv)
