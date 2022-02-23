@@ -71,6 +71,7 @@ def extract_features_and_labels_from_sentences(sentences, pred_column):
 def write_sentences_to_tsv(sents, path):
     with open(path, 'w', newline='') as outfile:
         csvwriter = csv.writer(outfile, delimiter='\t', quotechar='\\', quoting=csv.QUOTE_MINIMAL)
+        csvwriter.writerow(['lemma', 'pred_lemma', 'label'])  # write header row with feature names
         for sent in sents:
             for s in sent:
                 for token in s:
