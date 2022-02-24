@@ -1,3 +1,4 @@
 data/*.conllu
 data/*.tsv
 .idea/
+code/__pycache__/
