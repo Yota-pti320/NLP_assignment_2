@@ -113,9 +113,10 @@ def write_sentences_to_tsv(sents, path):
             for s in sent:
                 for token in s:
                     csvwriter.writerow(token)
-                if len(sent) > 1 and sent.index(s) != len(sent) - 1:
-                    csvwriter.writerow(['X'])  # indicate repeats of the same sentence
-            csvwriter.writerow(['Y'])  # indicate sentence breaks
+                csvwriter.writerow([])
+            #     if len(sent) > 1 and sent.index(s) != len(sent) - 1:
+            #         csvwriter.writerow(['X'])  # indicate repeats of the same sentence
+            # csvwriter.writerow(['Y'])  # indicate sentence breaks
 
 
 def main(path):
