@@ -20,12 +20,12 @@ def extract_predicate_lemma(sentence):
     # iterate through all the tokens in the sentence until you find the predicate, then return its lemma
     for token in sentence:
         if token[-1] == 'V':
-            return token[2]
+            return token[2].lower()
     # if there are no predicates, returns None
 
 
 def extract_lemma(token):
-    return token[2]
+    return token[2].lower()
 
 
 def extract_POS(token):
@@ -34,7 +34,7 @@ def extract_POS(token):
 
 def extract_predicate_POS(sentence):
     for token in sentence:
-        if token[-1] == 'V':  # ?
+        if token[-1] == 'V':
             return token[3]
 
 
@@ -55,14 +55,12 @@ def extract_features_and_labels(sentence):
     predicate_POS = extract_predicate_POS(sentence)  # extract POS of the predicate as feature
     voice = extract_voice(sentence)  # extract voice of the predicate as feature
     for token in sentence:
-        # extract the label
-        label = token[-2]
         # check if token is an argument > we only extract features for arguments
-        if label not in ['V', '_']:
+        if token[-1] not in ['V', '_']:
             # extract features that only depend on this token
             lemma = extract_lemma(token)   # extract lemma as feature
             arg_POS = extract_POS(token)   # extract POS of arguments as feature
-            # collect all features
+            label = token[-2]
             new_sentence.append([lemma, arg_POS, predicate_lemma, predicate_POS, voice, label])
     return new_sentence
 
