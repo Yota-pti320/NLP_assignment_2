@@ -76,16 +76,10 @@ def write_sentences_to_tsv(sents, path):
         for sent in sents:
             for token in sent:
                 csvwriter.writerow(token)
-            #     if len(sent) > 1 and sent.index(s) != len(sent) - 1:
-            #         csvwriter.writerow(['X'])  # indicate repeats of the same sentence
-            # csvwriter.writerow(['Y'])  # indicate sentence breaks
 
 
-def main(path):
+def extract_features_and_return_output_path(path):
     sentences = read_sentences_from_tsv(path)
     new_sentences = extract_features_and_labels_from_sentences(sentences)
-    write_sentences_to_tsv(new_sentences, '../data/dev-features.tsv')
-
-
-# test
-main('../data/arg_iden_output.tsv')
+    write_sentences_to_tsv(new_sentences, path.replace('.tsv', '-features.tsv'))
+    return path.replace('.tsv', '-features.tsv')

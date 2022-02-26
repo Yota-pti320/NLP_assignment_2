@@ -87,7 +87,6 @@ def predict_arguments_for_sentences(sentences, gold_pred_column, pred_pred_colum
                     continue
                 elif gold_pred_label == 'PRED' and pred_pred_label == '_':
                     this_sentence = construct_a_sentence(sentence, pred_pred_column, i)
-
                     new_sentences.append([token + ['_'] for token in this_sentence])
                     pred_id += 1
                     i += 1
@@ -114,17 +113,58 @@ def write_sentences_to_tsv(sents, path):
                 for token in s:
                     csvwriter.writerow(token)
                 csvwriter.writerow([])
-            #     if len(sent) > 1 and sent.index(s) != len(sent) - 1:
-            #         csvwriter.writerow(['X'])  # indicate repeats of the same sentence
-            # csvwriter.writerow(['Y'])  # indicate sentence breaks
 
 
-def main(path):
+def extract_gold_arguments(sentence):
+    gold_arguments = []
+    for token in sentence:
+        if token[-1] == "_":
+            gold_arguments.append("_")
+        elif token[-1] == "V":
+            gold_arguments.append("V")
+        else:
+            gold_arguments.append("ARG")
+    return gold_arguments
+
+
+def extract_gold_arguments_for_sentences(sentences, gold_pred_column, pred_pred_column):
+    result = []
+    for sentence in sentences:
+        gold_pred_labels = extract_predicate_labels(sentence, gold_pred_column)
+        pred_pred_labels = extract_predicate_labels(sentence, pred_pred_column)
+        num_pred_gold = count_predicates(gold_pred_labels)
+        num_pred_pred = count_predicates(pred_pred_labels)
+        if num_pred_gold == 0 and num_pred_pred == 0:
+            result.append([[token + ['_'] for token in sentence]])
+            # list for consistency, so we can iterate through all sents in the same way
+        else:
+            new_sentences = []
+            pred_id = 1
+            i = 0
+            for gold_pred_label, pred_pred_label in zip(gold_pred_labels, pred_pred_labels):
+                if gold_pred_label == '_' and pred_pred_label == '_':
+                    pred_id += 1
+                    continue
+                else:
+                    this_sentence = construct_a_sentence(sentence, pred_pred_column, i)
+                    pred_arg_labels = extract_gold_arguments(this_sentence)
+                    new_sentences.append([token + [label] for token, label in zip(this_sentence, pred_arg_labels)])
+                    pred_id += 1
+                    i += 1
+            result.append(new_sentences)
+    return result
+
+
+def identify_arguments_and_return_output_path(path, method):
     sentences = read_sentences_from_tsv(path)
     gold_predicate = 10
     pred_predicate = 11
-    new_sentences = predict_arguments_for_sentences(sentences, gold_predicate, pred_predicate)
-    write_sentences_to_tsv(new_sentences, '../data/output.tsv')
-
-
-main('../data/en_ewt-up-dev-pred_iden-gold.tsv')
+    if method == 'rule':
+        new_sentences = predict_arguments_for_sentences(sentences, gold_predicate, pred_predicate)
+        output_path = path.replace('.tsv', '-arg_iden-rule.tsv')
+        write_sentences_to_tsv(new_sentences, output_path)
+    else:
+        new_sentences = extract_gold_arguments_for_sentences(sentences, gold_predicate, pred_predicate)
+        output_path = path.replace('.tsv', '-arg_iden-gold.tsv')
+        write_sentences_to_tsv(new_sentences, output_path)
+    return output_path

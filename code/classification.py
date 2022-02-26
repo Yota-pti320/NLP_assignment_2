@@ -48,29 +48,24 @@ def get_predictions(test_path, vectorizer, classifier):
 
     test_features = extract_features_and_labels(test_path)[0]
     test_features_vectorized = vectorizer.transform(test_features)
-    print(f'Using vectors of dimensionality {test_features_vectorized.shape[1]}')
     predictions = classifier.predict(test_features_vectorized)
 
     return predictions
 
 
-def write_predictions_to_file(predictions, path):
-    with open(path, encoding='utf-8') as infile:
+def write_predictions_to_file(predictions, in_path, out_path):
+    with open(in_path, encoding='utf-8') as infile:
         reader = csv.reader(infile, delimiter='\t', quotechar='\\')
-        with open('../data/dev-predictions.tsv', 'w', newline='') as outfile:
+        with open(out_path, 'w', newline='') as outfile:
             writer = csv.writer(outfile, delimiter='\t', quotechar='\\', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(next(reader)[:-1] + ['prediction'])  # write header row
+            writer.writerow(next(reader) + ['prediction'])  # write header row
             for row, prediction in zip(reader, predictions):
-                writer.writerow(row[:-1] + [prediction])
+                writer.writerow(row + [prediction])
 
 
-def main(train_path, test_path) -> None:
-    train_features, gold_labels = extract_features_and_labels(train_path)
+def classify_and_return_predictions(train_features_path, test_features_path):
+    train_features, gold_labels = extract_features_and_labels(train_features_path)
     classifier, vectorizer = create_classifier(train_features, gold_labels)
-    predictions = get_predictions(test_path, vectorizer, classifier)
-    # print(type(predictions))
-    write_predictions_to_file(predictions, test_path)
-
-
-# test
-main('../data/train-features.tsv', '../data/dev-features.tsv')
+    predictions = get_predictions(test_features_path, vectorizer, classifier)
+    write_predictions_to_file(predictions, test_features_path, test_features_path.replace('.tsv', '-predictions.tsv'))
+    return predictions

@@ -52,10 +52,9 @@ def identify_predicates(sent: List[List], method:str) -> List[List]:
         sent_with_pred.append(row)
     return sent_with_pred
 
-def output_identification(datafile: str, all_sent_output: List, method):
-    ext = datafile.split("/")[-1].split(".")[-1]
-    outfile = datafile.rstrip("."+ext) + f"-pred_iden-{method}.tsv"
-    with open(outfile, 'w', newline='') as csvfile:
+
+def output_identification(output_path: str, all_sent_output: List, method):
+    with open(output_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter='\t',
                             quotechar='\\', quoting=csv.QUOTE_MINIMAL)
         for sent in all_sent_output:
@@ -64,14 +63,12 @@ def output_identification(datafile: str, all_sent_output: List, method):
             writer.writerow("")
 
 
-def main(path):
-    for method in ["gold", "rule"]:
-        sents = read_sentences_from_connlu(path)
-        all_sent_output = []
-        for sent in sents:
-            sent_with_pred = identify_predicates(sent, method)
-            all_sent_output.append(sent_with_pred)
-        output_identification(path, all_sent_output, method)
-
-
-main("../data/en_ewt-up-dev.conllu")
+def identify_predicates_and_return_output_path(path, method):
+    sents = read_sentences_from_connlu(path)
+    all_sent_output = []
+    for sent in sents:
+        sent_with_pred = identify_predicates(sent, method)
+        all_sent_output.append(sent_with_pred)
+    output_path = path.replace('.conllu', f'-pred_iden-{method}.tsv')
+    output_identification(output_path, all_sent_output, method)
+    return output_path
