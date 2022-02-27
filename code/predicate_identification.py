@@ -29,7 +29,7 @@ def read_sentences_from_connlu(path):
     return sentences
 
 
-def identify_predicates(sent: List[List], method:str) -> List[List]:
+def identify_predicates(sent: List[List], method: str) -> List[List]:
     """
     For each sent -> find id of predicates in a sentence
     :method: "gold":using gold predicate senses or "rule":using self-defined rules
@@ -53,14 +53,14 @@ def identify_predicates(sent: List[List], method:str) -> List[List]:
     return sent_with_pred
 
 
-def output_identification(output_path: str, all_sent_output: List, method):
+def output_identification(output_path: str, all_sent_output: List):
     with open(output_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter='\t',
                             quotechar='\\', quoting=csv.QUOTE_MINIMAL)
         for sent in all_sent_output:
             for row in sent:
                 writer.writerow(row)
-            writer.writerow("")
+            writer.writerow([])
 
 
 def identify_predicates_and_return_output_path(path, method):
@@ -70,5 +70,5 @@ def identify_predicates_and_return_output_path(path, method):
         sent_with_pred = identify_predicates(sent, method)
         all_sent_output.append(sent_with_pred)
     output_path = path.replace('.conllu', f'-pred_iden-{method}.tsv')
-    output_identification(output_path, all_sent_output, method)
+    output_identification(output_path, all_sent_output)
     return output_path

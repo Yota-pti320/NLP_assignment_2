@@ -81,7 +81,6 @@ def predict_arguments_for_sentences(sentences, gold_pred_column, pred_pred_colum
             pred_id = 1
             i = 0
             for gold_pred_label, pred_pred_label in zip(gold_pred_labels, pred_pred_labels):
-
                 if gold_pred_label == '_' and pred_pred_label == '_':
                     pred_id += 1
                     continue

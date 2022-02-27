@@ -63,7 +63,7 @@ def write_predictions_to_file(predictions, in_path, out_path):
                 writer.writerow(row + [prediction])
 
 
-def classify_and_return_predictions(train_features_path, test_features_path):
+def classify_arguments_and_return_predictions(train_features_path, test_features_path):
     train_features, gold_labels = extract_features_and_labels(train_features_path)
     classifier, vectorizer = create_classifier(train_features, gold_labels)
     predictions = get_predictions(test_features_path, vectorizer, classifier)

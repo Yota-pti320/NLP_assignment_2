@@ -11,19 +11,17 @@ def get_gold_and_pred(path: str, task: str):
         if task == "predicate_identification":
             for row in reader:
                 if row:
-                    if row[10] == 'PRED' or row[11] == 'PRED':
+                    if row[10] == 'PRED' or row[11] == 'PRED':   # if gold or predicted label is PRED
                         gold.append(row[10])
                         pred.append(row[11])
 
         if task == "argument_identification":
             for row in reader:
                 if row:
-                    if row[-2] not in ['_', 'V'] or row[-1] == 'ARG':
+                    if row[-2] not in ['_', 'V'] or row[-1] == 'ARG':   # if gold or predicted label is an ARG label
                         if row[-2] == "_":
-                            # continue
                             gold.append("_")
                         elif row[-2] == "V":
-                            # continue
                             gold.append("V")
                         else:
                             gold.append("ARG")
@@ -32,7 +30,7 @@ def get_gold_and_pred(path: str, task: str):
         if task == "argument_classification":
             for row in reader:
                 if row:
-                    if row[-2] not in ['V', '_']:
+                    if row[-2] not in ['V', '_']:   # if gold label is ARG label
                         gold.append(row[-2])
                         pred.append(row[-1])
 
@@ -40,6 +38,7 @@ def get_gold_and_pred(path: str, task: str):
 
 
 # reusing my code from https://github.com/LahiLuk/TMgp4-negation-cue-detection/blob/main/code/utils.py
+
 def calculate_precision_recall_f1_score(gold_labels, predictions, digits=3, metric=None):
     """Calculate evaluation metrics."""
 
