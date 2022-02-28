@@ -74,7 +74,7 @@ For building predicates identification rules, we get insight from previous relat
 For the first rule, we choose all verbs since predicates basically are verbs. Besides, excluding ‘amod’, ‘case’ and ‘mark’ , there are examples from dataset:
 1) verb+‘amod’ will act as modifier not a predicate.
 
-    *President Bush on Tuesday nominated two individuals to replace _retiring_ jurists on ……*
+    *President Bush on Tuesday nominated two individuals to replace `retiring` jurists on ……*
 2) verb+’case’ will not act as predicate.
 
     *_Following_ on the heels of Ben’s announcement yesterday.*
