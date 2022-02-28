@@ -77,10 +77,10 @@ For the first rule, we choose all verbs since predicates basically are verbs. Be
     *President Bush on Tuesday nominated two individuals to replace `retiring` jurists on ……*
 2) verb+’case’ will not act as predicate.
 
-    *_Following_ on the heels of Ben’s announcement yesterday.*
+    *`Following` on the heels of Ben’s announcement yesterday.*
 3) verb+ ‘mark’ will not act as predicate.
 
-    *……every party should be the exception to the suspension rather than have a general rule _concerning_ how direct access should work for all parties.*
+    *……every party should be the exception to the suspension rather than have a general rule `concerning` how direct access should work for all parties.*
 
 For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when the form of verb is finite verb, which means verbs or auxiliaries that have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
 
