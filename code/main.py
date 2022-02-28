@@ -27,11 +27,8 @@ def write_predictions_to_file(path, predictions):
                     i += 1
 
 
-def main(args=None):
-    if not args:
-        args = sys.argv[1:]
-
-    train_path, test_path = args
+def main():
+    train_path, test_path = sys.argv[1:]
 
     train_path_preds = identify_predicates_and_return_output_path(train_path, 'rule')
     train_path_args = identify_arguments_and_return_output_path(train_path_preds, 'rule')

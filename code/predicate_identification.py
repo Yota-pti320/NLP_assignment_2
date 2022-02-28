@@ -1,6 +1,7 @@
 # identify predicates and arguments - store output
 from typing import List
 import csv
+import os
 
 
 def read_sentences_from_connlu(path):
@@ -69,6 +70,6 @@ def identify_predicates_and_return_output_path(path, method):
     for sent in sents:
         sent_with_pred = identify_predicates(sent, method)
         all_sent_output.append(sent_with_pred)
-    output_path = path.replace('.conllu', f'-pred_iden-{method}.tsv')
+    output_path = path.replace(os.path.splitext(path)[1], f'-pred_iden-{method}.tsv')
     output_identification(output_path, all_sent_output)
     return output_path
