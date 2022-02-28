@@ -72,11 +72,11 @@ The rule-based system operates on the following simple conditions, it takes colu
 ##### Motivation of rules
 For building predicates identification rules, we get insight from previous related work and diving deeply into the Universal Proposition Banks dataset.  
 For the first rule, we choose all verbs since predicates basically are verbs. Besides, excluding ‘amod’, ‘case’ and ‘mark’ , there are examples from dataset:
-1) verb+‘amod’ will act as modifier not a predicate
+1) verb+‘amod’ will act as modifier not a predicate.
     *President Bush on Tuesday nominated two individuals to replace _retiring_ jurists on ……*
-2) verb+’case’ will not act as predicate
+2) verb+’case’ will not act as predicate.
     *_Following_ on the heels of Ben’s announcement yesterday.*
-3) verb+ ‘mark’ will not act as predicate
+3) verb+ ‘mark’ will not act as predicate.
     *……every party should be the exception to the suspension rather than have a general rule _concerning_ how direct access should work for all parties.*
 
 For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when the form of verb is finite verb, which means verbs or auxiliaries that have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
