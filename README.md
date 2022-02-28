@@ -1,4 +1,4 @@
-# NLP_assignment_2
+# NLPtech Assignment 2 part 1: Traditional Semantic Role Labeling
 
 ### Authors
 YC Roderick Li, Lahorka Nikolovski, Panagiota Tselenti and Jingyue Zhang
