@@ -24,12 +24,37 @@ def extract_predicate_lemma(sentence):
     # if there are no predicates, returns None
 
 
+
 def extract_lemma(token):
     return token[2].lower()
 
 
 def extract_POS(token):
     return token[3]
+
+
+def extract_head_word(token, sentence):
+    head_index = token[6]
+    for token in sentence:
+        if token[0] == head_index:
+            head_word = token[2].lower()
+            return head_word
+
+
+def extract_dependency_relation(token):
+    return token[7]
+
+
+def extract_position_arg(token, sentence):
+    for row in sentence:
+        if row[-1] == "V":
+            predicate_id = row[0]
+    if predicate_id:
+        if float(token[0]) < float(predicate_id):
+            position = "before"
+        elif float(token[0]) > float(predicate_id):
+            position = "after"
+        return position
 
 
 def extract_predicate_POS(sentence):
@@ -59,9 +84,12 @@ def extract_features_and_labels(sentence):
         if token[-1] not in ['V', '_']:
             # extract features that only depend on this token
             lemma = extract_lemma(token)   # extract lemma as feature
+            head_word = extract_head_word(token, sentence)
+            dep_rel = extract_dependency_relation(token)
             arg_POS = extract_POS(token)   # extract POS of arguments as feature
+            position = extract_position_arg(token, sentence)
             label = token[-2]
-            new_sentence.append([lemma, arg_POS, predicate_lemma, predicate_POS, voice, label])
+            new_sentence.append([lemma, arg_POS, head_word, dep_rel, predicate_lemma, predicate_POS, position, voice, label])
     return new_sentence
 
 
@@ -72,7 +100,7 @@ def extract_features_and_labels_from_sentences(sentences):
 def write_sentences_to_tsv(sents, path):
     with open(path, 'w', newline='') as outfile:
         csvwriter = csv.writer(outfile, delimiter='\t', quotechar='\\', quoting=csv.QUOTE_MINIMAL)
-        csvwriter.writerow(['lemma', 'arg_pos', 'pred_lemma', 'pred_pos', 'voice', 'label'])  # write header row with feature names
+        csvwriter.writerow(['lemma', 'arg_pos', 'head_word', 'dep_rel', 'pred_lemma', 'pred_pos', 'position', 'voice', 'label'])  # write header row with feature names
         for sent in sents:
             for token in sent:
                 csvwriter.writerow(token)

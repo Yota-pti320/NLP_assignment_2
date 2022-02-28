@@ -38,6 +38,7 @@ def main():
 
     y_true, y_pred = get_gold_and_pred(test_path_preds, 'predicate_identification')
     report = classification_report(y_true, y_pred, digits=3, output_dict=True)["PRED"]
+    print("-----Evaluation on rule-based predicate identification------")
     print(report)  # of all gold predicates, how many did we identify as predicates
     print(generate_confusion_matrix(y_true, y_pred))
 
@@ -45,6 +46,7 @@ def main():
 
     y_true, y_pred = get_gold_and_pred(test_path_args, 'argument_identification')
     report = classification_report(y_true, y_pred, digits=3, output_dict=True)["ARG"]
+    print("-----Evaluation on rule-based argument identification (predicate: rules)------")
     print(report)  # of all gold arguments, how many did we identify as arguments
     print(generate_confusion_matrix(y_true, y_pred))
 
@@ -55,6 +57,7 @@ def main():
 
     # of all gold arguments, how many did we classify correctly
     y_true, y_pred = get_gold_and_pred(test_path_args.replace('.tsv', '-predictions.tsv'), 'argument_classification')
+    print("-----Evaluation on argument classification (predicate: rules; argument: rules)------")
     print(classification_report(y_true, y_pred, digits=3, zero_division=0))
 
     # evaluate argument identification after gold predicate identification
@@ -62,6 +65,7 @@ def main():
     test_path_args = identify_arguments_and_return_output_path(test_path_preds, 'rule')
     y_true, y_pred = get_gold_and_pred(test_path_args, 'argument_identification')
     report = classification_report(y_true, y_pred, digits=3, output_dict=True)["ARG"]
+    print("-----Evaluation on rule-based argument identification (predicate: gold)------")
     print(report)  # of all gold arguments, how many did we identify as arguments
     print(generate_confusion_matrix(y_true, y_pred))
 
@@ -77,6 +81,7 @@ def main():
     write_predictions_to_file(test_path_args, predictions)
 
     y_true, y_pred = get_gold_and_pred(test_path_args.replace('.tsv', '-predictions.tsv'), 'argument_classification')
+    print("-----Evaluation on argument classification (predicate: gold; argument: gold)------")
     print(classification_report(y_true, y_pred, digits=3, zero_division=0))
 
 
