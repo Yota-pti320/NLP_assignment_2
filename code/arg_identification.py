@@ -78,8 +78,8 @@ def predict_arguments_for_sentences(sentences, gold_pred_column, pred_pred_colum
             # list for consistency, so we can iterate through all sents in the same way
         else:
             new_sentences = []
-            pred_id = 1
-            i = 0
+            pred_id = 1  # Looping each token in a sentence (column[0] of each row starts with 1)
+            i = 0  # count number of gold predicates to know which column to extract for the labels
             for gold_pred_label, pred_pred_label in zip(gold_pred_labels, pred_pred_labels):
                 if gold_pred_label == '_' and pred_pred_label == '_':
                     pred_id += 1
