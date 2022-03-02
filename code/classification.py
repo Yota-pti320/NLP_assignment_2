@@ -1,8 +1,3 @@
-# load features as input for the classifier
-
-# system output (i. e. the predictions) on the test set need to be produced in the same format
-# as the training and development data
-
 from sklearn.svm import LinearSVC
 from sklearn.feature_extraction import DictVectorizer
 import csv
@@ -12,10 +7,8 @@ import csv
 
 def extract_features_and_labels(file_path):
     """Extract a set of features and labels from file."""
-
     features = []
     labels = []
-
     with open(file_path, 'r', encoding='utf8') as infile:
         # restval specifies value to be used for missing values
         reader = csv.DictReader(infile, restval='', delimiter='\t', quotechar='\\')
@@ -28,32 +21,28 @@ def extract_features_and_labels(file_path):
                     feature_dict[feature_name] = row[feature_name]
             features.append(feature_dict)
             labels.append(row[label_column])
-
     return features, labels
 
 
 def create_classifier(train_features, train_labels):
     """Vectorize features and create classifier from training data."""
-
     classifier = LinearSVC(random_state=42)
     vec = DictVectorizer()
     train_features_vectorized = vec.fit_transform(train_features)
     classifier.fit(train_features_vectorized, train_labels)
-
     return classifier, vec
 
 
 def get_predictions(test_path, vectorizer, classifier):
     """Vectorize test features and get predictions."""
-
     test_features = extract_features_and_labels(test_path)[0]
     test_features_vectorized = vectorizer.transform(test_features)
     predictions = classifier.predict(test_features_vectorized)
-
     return predictions
 
 
-def write_predictions_to_file(predictions, in_path, out_path):
+def write_predictions_to_features_file(predictions, in_path, out_path):
+    """Write predictions to a file containing features."""
     with open(in_path, encoding='utf-8') as infile:
         reader = csv.reader(infile, delimiter='\t', quotechar='\\')
         with open(out_path, 'w', newline='') as outfile:
@@ -64,8 +53,10 @@ def write_predictions_to_file(predictions, in_path, out_path):
 
 
 def classify_arguments_and_return_predictions(train_features_path, test_features_path):
+    """Train an SVM classifier on training set arguments. Return predictions of the classifier on test set arguments."""
     train_features, gold_labels = extract_features_and_labels(train_features_path)
     classifier, vectorizer = create_classifier(train_features, gold_labels)
     predictions = get_predictions(test_features_path, vectorizer, classifier)
-    write_predictions_to_file(predictions, test_features_path, test_features_path.replace('.tsv', '-predictions.tsv'))
+    write_predictions_to_features_file(predictions, test_features_path,
+                                       test_features_path.replace('.tsv', '-predictions.tsv'))
     return predictions

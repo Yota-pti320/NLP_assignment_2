@@ -1,10 +1,10 @@
-# identify predicates and arguments - store output
 from typing import List
 import csv
 import os
 
 
 def read_sentences_from_connlu(path):
+    """Read in all sentences from a connlu file"""
     sentences = []
     with open(path, encoding='utf-8') as infile:
         sentence = []
@@ -54,22 +54,22 @@ def identify_predicates(sent: List[List], method: str) -> List[List]:
     return sent_with_pred
 
 
-def output_identification(output_path: str, all_sent_output: List):
+def write_results_pred_ident_to_tsv(output_path: str, all_sent_output: List) -> None:
+    """Write results of predicate identification to a file"""
     with open(output_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter='\t',
                             quotechar='\\', quoting=csv.QUOTE_MINIMAL)
         for sent in all_sent_output:
             for row in sent:
                 writer.writerow(row)
-            writer.writerow([])
+            writer.writerow([])  # keep an empty line between every sentence
 
 
-def identify_predicates_and_return_output_path(path, method):
+def identify_predicates_and_return_output_path(path: str, method: str) -> str:
+    """Read in all sentences from the file and for each sentence, identify predicates using a rule-based approach or
+    gold labels. Write the predictions to a file and return the file path."""
     sents = read_sentences_from_connlu(path)
-    all_sent_output = []
-    for sent in sents:
-        sent_with_pred = identify_predicates(sent, method)
-        all_sent_output.append(sent_with_pred)
+    all_sent_output = [identify_predicates(sent, method) for sent in sents]
     output_path = path.replace(os.path.splitext(path)[1], f'-pred_iden-{method}.tsv')
-    output_identification(output_path, all_sent_output)
+    write_results_pred_ident_to_tsv(output_path, all_sent_output)
     return output_path

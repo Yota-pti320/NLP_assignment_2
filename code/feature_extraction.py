@@ -1,4 +1,3 @@
-# extract features - store output
 import csv
 
 
@@ -22,7 +21,6 @@ def extract_predicate_lemma(sentence):
         if token[-1] == 'V':
             return token[2].lower()
     # if there are no predicates, returns None
-
 
 
 def extract_lemma(token):
@@ -74,7 +72,8 @@ def extract_voice(sentence):
 
 
 def extract_features_and_labels(sentence):
-    new_sentence = []
+    """Extract a list of features for every predicate in a sentence as well as the gold label."""
+    output = []
     # extract features that depend on the whole sentence and are the same for all tokens
     predicate_lemma = extract_predicate_lemma(sentence)  # extract lemma of the predicate as feature
     predicate_POS = extract_predicate_POS(sentence)  # extract POS of the predicate as feature
@@ -89,25 +88,27 @@ def extract_features_and_labels(sentence):
             arg_POS = extract_POS(token)   # extract POS of arguments as feature
             position = extract_position_arg(token, sentence)
             label = token[-2]
-            new_sentence.append([lemma, arg_POS, head_word, dep_rel, predicate_lemma, predicate_POS, position, voice, label])
-    return new_sentence
+            output.append([lemma, arg_POS, head_word, dep_rel, predicate_lemma, predicate_POS, position, voice,
+                           label])
+    return output
 
 
-def extract_features_and_labels_from_sentences(sentences):
-    return [extract_features_and_labels(sentence) for sentence in sentences]
-
-
-def write_sentences_to_tsv(sents, path):
+def write_results_feature_extraction_to_tsv(sents, path):
+    """Write result of feature extraction to a file"""
     with open(path, 'w', newline='') as outfile:
         csvwriter = csv.writer(outfile, delimiter='\t', quotechar='\\', quoting=csv.QUOTE_MINIMAL)
-        csvwriter.writerow(['lemma', 'arg_pos', 'head_word', 'dep_rel', 'pred_lemma', 'pred_pos', 'position', 'voice', 'label'])  # write header row with feature names
+        csvwriter.writerow(['lemma', 'arg_pos', 'head_word', 'dep_rel', 'pred_lemma', 'pred_pos', 'position', 'voice',
+                            'label'])  # write header row with feature names
         for sent in sents:
             for token in sent:
                 csvwriter.writerow(token)
 
 
-def extract_features_and_return_output_path(path):
+def extract_features_and_return_output_path(path: str) -> str:
+    """From a file with predicates and arguments identified, extract selected features for every argument.
+    Write results to a file and return a path to it"""
     sentences = read_sentences_from_tsv(path)
-    new_sentences = extract_features_and_labels_from_sentences(sentences)
-    write_sentences_to_tsv(new_sentences, path.replace('.tsv', '-features.tsv'))
-    return path.replace('.tsv', '-features.tsv')
+    all_sent_output = [extract_features_and_labels(sentence) for sentence in sentences]
+    output_path = path.replace('.tsv', '-features.tsv')
+    write_results_feature_extraction_to_tsv(all_sent_output, output_path)
+    return output_path

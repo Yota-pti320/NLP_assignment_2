@@ -4,17 +4,16 @@ import pandas as pd
 
 
 def get_gold_and_pred(path: str, task: str):
+    """Extract gold and predicted labels from a file and return them."""
     gold, pred = [], []
     with open(path, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter='\t', quotechar='\\')
-
         if task == "predicate_identification":
             for row in reader:
                 if row:
                     if row[10] == 'PRED' or row[11] == 'PRED':   # if gold or predicted label is PRED
                         gold.append(row[10])
                         pred.append(row[11])
-
         if task == "argument_identification":
             for row in reader:
                 if row:
@@ -26,22 +25,19 @@ def get_gold_and_pred(path: str, task: str):
                         else:
                             gold.append("ARG")
                         pred.append(row[-1])
-
         if task == "argument_classification":
             for row in reader:
                 if row:
                     if row[-2] not in ['V', '_']:   # if gold label is ARG label
                         gold.append(row[-2])
                         pred.append(row[-1])
-
     return gold, pred
 
 
 # reusing my code from https://github.com/LahiLuk/TMgp4-negation-cue-detection/blob/main/code/utils.py
 
-def calculate_precision_recall_f1_score(gold_labels, predictions, digits=3, metric=None):
+def calculate_precision_recall_f1_score(gold_labels, predictions, metric=None, digits=3):
     """Calculate evaluation metrics."""
-
     # get the report in dictionary form
     report = classification_report(gold_labels, predictions, zero_division=0, output_dict=True)
     # transform dictionary into a dataframe and round the results
@@ -55,7 +51,6 @@ def calculate_precision_recall_f1_score(gold_labels, predictions, digits=3, metr
 
 def generate_confusion_matrix(gold_labels, predictions):
     """Generate a confusion matrix."""
-
     labels = sorted(set(gold_labels))
     cf_matrix = confusion_matrix(gold_labels, predictions, labels=labels)
     # transform confusion matrix into a dataframe
