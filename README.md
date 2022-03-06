@@ -49,7 +49,7 @@ The datasets that are used were provided by Universal Proposition Banks. All dat
 * Column1  Token
 * Column2  Lemma
 * Column3  Universal POS
-* Column4  TPB POS
+* Column4  PTB POS
 * Column5  Morphological information
 * Column6  Index of head word
 * Column7  Dependency relation
