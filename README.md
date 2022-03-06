@@ -96,7 +96,7 @@ The rule-based approach operates on the following simple conditions:
 2) Iterate sentence again, if token in the sentence has the index of head word just same as the index of predicate, and its dependency relation is not in ["det", "punct", "mark", "parataxis"], it will be labelled ‘ARG’. This rule is motivated by our observation of the data.
 
 
-#### Arguments classification
+### Arguments classification
 In the third step, an SVM classifier is trained to assign specific argument labels based on predicates and arguments detected before. Extracted features (explained in detail in the next section) will be fed into our system.  The classification instances are the instances that have been identified as arguments in the previous step. In other words, both training and prediction will only be performed on instances that have an “ARG” label. Ideally, a well-performing classifier can further classify arguments accurately as ARG0, ARG1, ARG2, ARG-TMP, etc. On the other hand, another classifier is developed to be trained and predict on gold predicates and gold arguments. Evaluation will be done on both systems to showcase the performance of a standalone classification task and the effect of error propagation.
 
 
