@@ -56,8 +56,6 @@ def identify_arguments(sent: List[List], p_id: int) -> List:
 def predict_arguments_for_sentences(sentence, gold_pred_column, pred_pred_column, method):
     """For each sentence, predict arguments for each of its predicates. Store all sentences with
     predicted labels to a list and return it."""
-    # result = []
-    # for sentence in sentences:
     gold_pred_labels = extract_predicate_labels(sentence, gold_pred_column)
     pred_pred_labels = extract_predicate_labels(sentence, pred_pred_column)
     num_pred_gold, num_pred_pred = count_predicates(gold_pred_labels), count_predicates(pred_pred_labels)

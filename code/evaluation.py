@@ -26,15 +26,18 @@ def get_gold_and_pred(path: str, task: str):
                             gold.append("ARG")
                         pred.append(row[-1])
         if task == "argument_classification":
+            next(reader)  # skip header row
             for row in reader:
                 if row:
-                    if row[-2] not in ['V', '_']:   # if gold label is ARG label
-                        gold.append(row[-2])
+                    # if row[-3] not in ['V', '_']:   # if gold label is ARG label
+                    if row[-3] not in ['V', '_'] or row[-2] == 'ARG':   # if gold label is ARG label or if it was an
+                        # argument we identified
+                        gold.append(row[-3])
                         pred.append(row[-1])
     return gold, pred
 
 
-# reusing my code from https://github.com/LahiLuk/TMgp4-negation-cue-detection/blob/main/code/utils.py
+# reusing parts of my code from https://github.com/LahiLuk/TMgp4-negation-cue-detection/blob/main/code/utils.py
 
 def calculate_precision_recall_f1_score(gold_labels, predictions, metric=None, digits=3):
     """Calculate evaluation metrics."""
