@@ -44,12 +44,12 @@ Lastly, we also evaluate our rule-based argument identification system by using 
 dataset. We do this to evaluate the performance of our classifier, not taking into account the error propagation from the previous steps of the pipeline.
 
 ### Brief data description
-The datasets that are used were provided by the Vrije Universiteit Amsterdam and Universal Proposition Banks. All datasets are in CoNLL-U format. The training and development datasets have the same attribute values:
+The datasets that are used were provided by Universal Proposition Banks. All datasets are in CoNLL-U format. The training and development datasets have the same attribute values:
 * Column0  Index
 * Column1  Token
 * Column2  Lemma
-* Column3  POS-simple version
-* Column4  POS-complex version
+* Column3  Universal POS
+* Column4  TPB POS
 * Column5  Morphological information
 * Column6  Index of head word
 * Column7  Dependency relation
@@ -58,34 +58,50 @@ The datasets that are used were provided by the Vrije Universiteit Amsterdam and
 * Column10 Gold predicates
 * Column11-N Gold arguments
 
-From column 0 to column 9, word-levelled information and dependency information are provided as features can be used. From column 10 to the last column, gold data is provided. In column 10, gold predicate information is labelled with predicate sense. If a token is not a predicate, it is labelled ‘_’ . From column 11 to the last column, argument information is labelled.
+From column 0 to column 9, word-level linguistic information is provided. From column 10 to the last column, gold labels are provided. In column 10, gold predicate information is labelled with predicate sense. From column 11 to the last column, argument information is labelled.
+
 
 ### Identification
 #### Predificates identification
 A rule-based system was created to extract predicates. By implementing this system into our experiment, we hope to add one column next to the gold predicates column, then check if they match.
 ##### Rule-based approach
-Before applying the rule-based predicates identification approach, there are two preprocessing steps: First, converting predicates information of column 10 into binary, ‘PRED’ or ‘_’.  Second, setting two methods for generating column 11. One is “gold”, another is “rule”. Implementing ‘gold’ will generate gold predicates in column11. Implementing ‘rule’ will detect predicates based on the rule-based approach.
-The rule-based system operates on the following simple conditions, it takes column 3,4,5,7 and 10 into account, the output is a list of assigned class in the same order as the tokens:
-1) If ‘VERB’ occurs in column3, and if dependency relation in column7 is not ‘amod’, ‘case’ or ‘mark’, assign the label ‘PRED’ into column 11. If not, assign ‘_’.
-2) If ‘AUX’ occurs in column3, and ‘VerbForm==Fin’ doesn't occur in column5, assign the label ‘PRED’ into column 11. If not, assign ‘_’.
-3) If ‘JJ’ or ‘JJR’ occurs in column4, and ‘cl’ occurs in column7 or something in column7 endswith ‘comp’ occurs, assign the label ‘PRED’ into column 11. If not, assign ‘_’.
-##### Motivation of rules
-For building predicates identification rules, we get insight from previous related work and diving deeply into the Universal Proposition Banks dataset.  
-For the first rule, we choose all verbs since predicates basically are verbs. Besides, excluding ‘amod’, ‘case’ and ‘mark’ , there are examples from dataset:
-1) verb+‘amod’ will act as modifier not a predicate.
+A rule-based system was created to detect predicates. Before applying the rules, a preprocessing step is performed: predicate senses are converted to ‘PRED’ to indicate the token is a gold predicate.  
+The rule-based system operates on the following simple conditions: 
+1) If ‘VERB’ occurs in column 3, and if dependency relation in column 7 is not ‘amod’, ‘case’ or ‘mark’, assign the label ‘PRED’ to column 11. 
+2) If ‘AUX’ occurs in column 3, and ‘VerbForm==Fin’ doesn't occur in column 5, assign the label ‘PRED’ to column 11.
+3) If ‘JJ’ or ‘JJR’ occurs in column 4, and ‘cl’ occurs in column 7 or it ends with ‘comp’, assign the label ‘PRED’ to column 11.
+
+These three rules are motivated by observation about the dataset.  
+For the first rule, we choose all verbs since predicates are mostly verbs. However, verbs with a ‘amod’, ‘case’ and ‘mark’ dependency relation are excluded because of the following reasons:
+
+1) verb + ‘amod’ will act as a modifier, not a predicate
 
     *President Bush on Tuesday nominated two individuals to replace `retiring` jurists on ……*
-2) verb+’case’ will not act as predicate.
+2) verb + ’case’ will not act as predicate
 
     *`Following` on the heels of Ben’s announcement yesterday.*
-3) verb+ ‘mark’ will not act as predicate.
+3)  verb + ‘mark’ will not act as predicate
 
-    *……every party should be the exception to the suspension rather than have a general rule `concerning` how direct access should work for all parties.*
+    *……rather than have a general rule `concerning` how direct access should work for all parties.*
 
-For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when the form of verb is finite verb, which means verbs or auxiliaries that have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
+For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when they are finite, which means they have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
 
-For the third rule, we tried to find regular patterns for adjectives and comparatives of adjectives that were labelled as predicates. We observed that adjectives have specified dependency relations such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be labelled as predicate
+For the third rule, we tried to find regular patterns for adjectives and comparatives of adjectives that were labelled as predicates. We observed that adjectives that have specified dependency relations such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be labelled as predicates.
 
 
 #### Arguments identification
+For the second step, a rule-based approach is used to identify arguments for the predicates that were extracted in the previous step.
+The rule-based approach operates on the following simple conditions:
+1) Iterate the sentences. If a sentence has predicates, extract the index of predicates.
+2) Iterate sentence again, if token in the sentence has the index of head word just same as the index of predicate, and its dependency relation is not in ["det", "punct", "mark", "parataxis"], it will be labelled ‘ARG’. This rule is motivated by our observation of the data.
+
+
+#### Arguments classification
+In the third step, an SVM classifier is trained to assign specific argument labels based on predicates and arguments detected before. Extracted features (explained in detail in the next section) will be fed into our system.  The classification instances are the instances that have been identified as arguments in the previous step. In other words, both training and prediction will only be performed on instances that have an “ARG” label. Ideally, a well-performing classifier can further classify arguments accurately as ARG0, ARG1, ARG2, ARG-TMP, etc. On the other hand, another classifier is developed to be trained and predict on gold predicates and gold arguments. Evaluation will be done on both systems to showcase the performance of a standalone classification task and the effect of error propagation.
+
+
+
+
+
+
 
