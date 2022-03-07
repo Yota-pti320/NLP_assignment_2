@@ -44,15 +44,15 @@ def extract_dependency_relation(token):
 
 
 def extract_position_arg(token, sentence):
-    for row in sentence:
-        if row[-1] == "V":
-            predicate_id = row[0]
-    if predicate_id:
-        if float(token[0]) < float(predicate_id):
-            position = "before"
-        elif float(token[0]) > float(predicate_id):
-            position = "after"
-        return position
+    for tok in sentence:
+        if tok[-1] == "V":
+            predicate_id = tok[0]
+            break
+    if float(token[0]) < float(predicate_id):
+        position = "before"
+    else:
+        position = "after"
+    return position
 
 
 def extract_predicate_POS(sentence):
@@ -65,9 +65,9 @@ def extract_voice(sentence):
     for token in sentence:
         if token[-1] == 'V':
             if 'Voice=Pass' in token[5]:
-                voice = 'Passive'
+                voice = 'passive'
             else:
-                voice = 'Active'
+                voice = 'active'
             return voice
 
 
