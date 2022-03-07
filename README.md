@@ -83,11 +83,11 @@ From column 0 to column 9, token-level linguistic information is provided. From 
 A rule-based system was created to detect predicates. The rule-based system operates on the following three rules: 
 
 For the first rule, we choose all verbs, since predicates are mostly verbs. However, verbs with ‘amod’, ‘case’ and ‘mark’ dependency relations are excluded because of the following reasons:
-1) verb + ‘amod’ will act as a modifier, not a predicate
+1) verb + ‘amod’ will act as a modifier, not a predicate.
     *President Bush on Tuesday nominated two individuals to replace `retiring` jurists on ……*
-2) verb + ’case’ will not act as predicate
+2) verb + ’case’ will not act as predicate.
     *`Following` on the heels of Ben’s announcement yesterday.*
-3)  verb + ‘mark’ will not act as predicate
+3)  verb + ‘mark’ will not act as predicate.
     *……rather than have a general rule `concerning` how direct access should work for all parties.*
 
 For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when they are finite, which means they have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
