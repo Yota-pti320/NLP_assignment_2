@@ -27,7 +27,7 @@ def write_predictions_to_file(in_path: str, out_path: str, predictions: ndarray)
                 if not row:  # empty line
                     writer.writerow([])
                 elif row[-1] != 'ARG':
-                    writer.writerow(row + [''])  # indicate this instance was not identified as an argument, thus we
+                    writer.writerow(row + ['_'])  # indicate this instance was not identified as an argument, thus we
                     # haven't classified it
                 else:
                     writer.writerow(row + [predictions[i]])
