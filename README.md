@@ -110,6 +110,16 @@ All features are encoded by one-hot encoding.
 | --- | --- | --- |
 | Lemma of each token | Lemmas are used instead of tokens to reduce vector dimensionality and help capture patterns that hold across different realizations of the same lemma (plural vs. singular, etc.). Another example is negation words (“no”, “not”) are more likely to be “ARGM-NEG”s. | Lemma |
 | POS of each token | Part-of-speech tag of token. Tokens with some parts-of-speech are more likely to be certain classes of arguments. For instance, if it is a NOUN, PROPN or PRON, it is more likely to be an ARG0, ARG1, ARG2, ARG3 or ARG4; however, if it is ADV, it is more likely to be ARGM-ADV. | Universal POS-tag |
+| Head lemma of each token | Each token has a corresponding head word which acts as the syntactic parent, or ‘governor’. Finding out the head word helps learn this token’s relation with the predicate, and information about the hierarchy of this token. | Lemma |
+| Dep. rel. of each token | Revealing the dependency relations of each token in the syntactic structure of a sentence. It describes the relation between this token and its head. Certain relations are more likely to be certain classes of arguments. For instance, “obl” is usually used for temporal and locational arguments. | Universal Dependency relations |
+| Lemma of predicate | Lemmatized form of the predicate. The same predicates are more likely to have the same number and types of arguments. For instance, if the predicate is “sleep”, an intransitive verb, it is more likely to have only ARG0. | Lemma |
+| POS of predicate | Part-of-speech tag of predicate.  The POS of the predicate may influence the types of arguments it takes. For instance, AUX “be” does not take ARG0s. | Universal POS-tag |
+| Voice | The voice feature cCaptures a certain bias of position distribution of arguments when it is ‘Passive’ or ‘Active’. An example from Xue & Palmer (2004) is that a subject is very likely to be Arg0 in an active sentence, whereas it is more likely to be an Arg1 in a passive sentence. | “active” or “passive” |
+| Position | Position of the argument with respect to the predicate. This feature works well with the voice information. In a sentence with an active predicate, the type of argument occurring before the predicate is more likely to be Arg0, and the argument after Arg1.  Conversely, if the predicate is passive, Arg1 more often comes before the predicate and Arg0 after. | "before" or "after" |
+
+
+#### Reference
+Xue, N., & Palmer, M. (2004, July). Calibrating features for semantic role labeling. In EMNLP (pp. 88-94).
 
 
 
