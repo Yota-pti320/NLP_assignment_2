@@ -103,8 +103,14 @@ The rule-based approach operates on the following simple conditions:
 ### Arguments classification
 In the third step, an SVM classifier is trained to assign specific argument labels based on predicates and arguments detected before. Extracted features (explained in detail in the next section) will be fed into our system.  The classification instances are the instances that have been identified as arguments in the previous step. In other words, both training and prediction will only be performed on instances that have an “ARG” label. Ideally, a well-performing classifier can further classify arguments accurately as ARG0, ARG1, ARG2, ARG-TMP, etc. On the other hand, another classifier is developed to be trained and predict on gold predicates and gold arguments. Evaluation will be done on both systems to showcase the performance of a standalone classification task and the effect of error propagation.
 
+### Features
+All features are encoded by one-hot encoding.
 
-
+| Features | Description | Feature value |
+| --- | --- | --- |
+| Lemma of each token | Lemma of the token.
+Lemmas are used instead of tokens to reduce vector dimensionality and help capture patterns that hold across different realizations of the same lemma (plural vs. singular, etc.). Another example is negation words (“no”, “not”) are more likely to be “ARGM-NEG”s. | Lemma |
+| POS of each token | Part-of-speech tag of token. Tokens with some parts-of-speech are more likely to be certain classes of arguments. For instance, if it is a NOUN, PROPN or PRON, it is more likely to be an ARG0, ARG1, ARG2, ARG3 or ARG4; however, if it is ADV, it is more likely to be ARGM-ADV. | Universal POS-tag |
 
 
 
