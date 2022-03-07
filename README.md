@@ -45,16 +45,16 @@ dataset. We do this to evaluate the performance of our classifier, not taking in
 
 ### Brief data description
 The datasets that are used were provided by Universal Proposition Banks. All datasets are in CoNLL-U format. The training and development datasets have the same attribute values:
-* Column0  Index
-* Column1  Token
-* Column2  Lemma
-* Column3  Universal POS
-* Column4  PTB POS
-* Column5  Morphological information
-* Column6  Index of head word
-* Column7  Dependency relation
-* Column8  Combination of column6 and column7
-* Column9  Notes
+* Column0  ID: Word index, integer starting at 1 for each new sentence; may be a range for tokens with multiple words.
+* Column1  FORM: Word form or punctuation symbol.
+* Column2  LEMMA: Lemma or stem of word form.
+* Column3  UPOSTAG: Universal part-of-speech tag drawn from our revised version of the Google universal POS tags.
+* Column4  XPOSTAG: Language-specific part-of-speech tag; underscore if not available.
+* Column5  FEATS: List of morphological features from the universal feature inventory or from a defined language-specific extension; underscore if not available.
+* Column6  HEAD: Head of the current token, which is either a value of ID or zero (0).
+* Column7  DEPREL: Universal Stanford dependency relation to the HEAD (root if HEAD = 0) or a defined language-specific subtype of one.
+* Column8  DEPS: List of secondary dependencies (head-deprel pairs).
+* Column9  MISC: Any other annotation.
 * Column10 Gold predicates
 * Column11-N Gold arguments
 
