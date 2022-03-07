@@ -64,18 +64,18 @@ previous steps of the pipeline.
 
 ### Brief data description
 We used The EN Universal Propbank data (available at https://github.com/System-T/UniversalPropositions/tree/master/UP_English-EWT). All datasets are in the CoNLL-U format. The training and test datasets have the same attribute values:
-* Column0  ID: Word index, integer starting at 1 for each new sentence; may be a range for tokens with multiple words.
-* Column1  FORM: Word form or punctuation symbol.
-* Column2  LEMMA: Lemma or stem of word form.
-* Column3  UPOSTAG: Universal part-of-speech tag drawn from our revised version of the Google universal POS tags.
-* Column4  XPOSTAG: Language-specific part-of-speech tag; underscore if not available.
-* Column5  FEATS: List of morphological features from the universal feature inventory or from a defined language-specific extension; underscore if not available.
-* Column6  HEAD: Head of the current token, which is either a value of ID or zero (0).
-* Column7  DEPREL: Universal Stanford dependency relation to the HEAD (root if HEAD = 0) or a defined language-specific subtype of one.
-* Column8  DEPS: List of secondary dependencies (head-deprel pairs).
-* Column9  MISC: Any other annotation.
-* Column10 Gold predicates
-* Column11-N Gold arguments
+* Column0    ID: Word index, integer starting at 1 for each new sentence; may be a range for tokens with multiple words.
+* Column1    FORM: Word form or punctuation symbol.
+* Column2    LEMMA: Lemma or stem of word form.
+* Column3    UPOSTAG: Universal part-of-speech tag drawn from our revised version of the Google universal POS tags.
+* Column4    XPOSTAG: Language-specific part-of-speech tag; underscore if not available.
+* Column5    FEATS: List of morphological features from the universal feature inventory or from a defined language-specific extension; underscore if not available.
+* Column6    HEAD: Head of the current token, which is either a value of ID or zero (0).
+* Column7    DEPREL: Universal Stanford dependency relation to the HEAD (root if HEAD = 0) or a defined language-specific subtype of one.
+* Column8    DEPS: List of secondary dependencies (head-deprel pairs).
+* Column9    MISC: Any other annotation.
+* Column10   Gold predicates
+* Column11-N   Gold arguments
 
 From column 0 to column 9, token-level linguistic information is provided. From column 10 to the last column, gold labels are provided. In column 10, gold predicate information is labelled with predicate sense. From column 11 to the last column, argument information is labelled.
 
