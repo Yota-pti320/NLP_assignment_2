@@ -93,9 +93,9 @@ For the first rule, we choose all verbs, since predicates are mostly verbs. Howe
 
     *……rather than have a general rule `concerning` how direct access should work for all parties.*
 
-For the second rule, we observed that most of auxiliaries are labelled as predicates in the dataset. But we noticed there are some exceptions when they are finite, which means they have a non-empty mood. Basically, those auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
+For the second rule, we choose auxiliaries that have specific conditions, since we observed that most of the auxiliaries are labelled as predicates in the dataset. However, we noticed there are some exceptions when they are finite, which is indicated as ‘VerbForm==Fin’. Basically, those excluded auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
 
-For the third rule, we tried to find regular patterns for adjectives and comparatives of adjectives that were labelled as predicates. We observed that adjectives that have specified dependency relations such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be labelled as predicates.
+For the third rule, we choose adjectives and adjective comparatives that have specific conditions. We observed that adjectives that have specified dependency relations, such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be predicates.
 
 ### Argument identification
 For the second step, a rule-based approach is used to identify arguments for the predicates that were extracted in the previous step.
