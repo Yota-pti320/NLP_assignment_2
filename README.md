@@ -77,7 +77,7 @@ We used The EN Universal Propbank data (available at https://github.com/System-T
 * Column10 Gold predicates
 * Column11-N Gold arguments
 
-From column 0 to column 9, word-level linguistic information is provided. From column 10 to the last column, gold labels are provided. In column 10, gold predicate information is labelled with predicate sense. From column 11 to the last column, argument information is labelled.
+From column 0 to column 9, token-level linguistic information is provided. From column 10 to the last column, gold labels are provided. In column 10, gold predicate information is labelled with predicate sense. From column 11 to the last column, argument information is labelled.
 
 ### Predicate identification
 A rule-based system was created to detect predicates. The rule-based system operates on the following three rules: 
