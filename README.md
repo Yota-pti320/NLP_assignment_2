@@ -94,13 +94,13 @@ For the second rule, we observed that most of auxiliaries are labelled as predic
 
 For the third rule, we tried to find regular patterns for adjectives and comparatives of adjectives that were labelled as predicates. We observed that adjectives that have specified dependency relations such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be labelled as predicates.
 
-### Arguments identification
+### Argument identification
 For the second step, a rule-based approach is used to identify arguments for the predicates that were extracted in the previous step.
 The rule-based approach operates on the following simple conditions:
 1) Iterate through the sentences. If a sentence has predicates, extract the index of each predicate.
 2) Iterate through the sentences again. If the token’s head is the predicate, and its dependency relation is not in ["det", "punct", "mark", "parataxis"], it will be identified as ‘ARG’. This rule is motivated by our observation of the data.
 
-### Arguments classification
+### Argument classification
 In the third step, an SVM classifier is trained to assign specific argument labels based on predicates and arguments detected before. Extracted features (explained in detail in the next section) will be fed into our system.  The classification instances are the instances that have been identified as arguments in the previous step. In other words, both training and prediction will only be performed on instances that have an “ARG” label. Ideally, a well-performing classifier can further classify arguments accurately as ARG0, ARG1, ARG2, ARG-TMP, etc. On the other hand, another classifier is developed to be trained and predict on gold predicates and gold arguments. Evaluation will be done on both systems to showcase the performance of a standalone classification task and the effect of error propagation.
 
 ### Features
