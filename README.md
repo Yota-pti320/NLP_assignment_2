@@ -108,9 +108,9 @@ All features are encoded by one-hot encoding.
 
 | Features | Description | Feature value |
 | --- | --- | --- |
-| Lemma of each token | Lemma of the token.
-Lemmas are used instead of tokens to reduce vector dimensionality and help capture patterns that hold across different realizations of the same lemma (plural vs. singular, etc.). Another example is negation words (“no”, “not”) are more likely to be “ARGM-NEG”s. | Lemma |
+| Lemma of each token | Lemmas are used instead of tokens to reduce vector dimensionality and help capture patterns that hold across different realizations of the same lemma (plural vs. singular, etc.). Another example is negation words (“no”, “not”) are more likely to be “ARGM-NEG”s. | Lemma |
 | POS of each token | Part-of-speech tag of token. Tokens with some parts-of-speech are more likely to be certain classes of arguments. For instance, if it is a NOUN, PROPN or PRON, it is more likely to be an ARG0, ARG1, ARG2, ARG3 or ARG4; however, if it is ADV, it is more likely to be ARGM-ADV. | Universal POS-tag |
+
 
 
 
