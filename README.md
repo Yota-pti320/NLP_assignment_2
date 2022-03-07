@@ -43,12 +43,14 @@ For the first rule, we choose all verbs, since predicates are mostly verbs. Howe
 1) verb + ‘amod’ will act as a modifier, not a predicate.
 
     *President Bush on Tuesday nominated two individuals to replace `retiring` jurists on ……*
+
 2) verb + ’case’ will not act as predicate.
 
-*`Following` on the heels of Ben’s announcement yesterday.*
+   *`Following` on the heels of Ben’s announcement yesterday.*
+
 3)  verb + ‘mark’ will not act as predicate.
 
-*……rather than have a general rule `concerning` how direct access should work for all parties.*
+   *……rather than have a general rule `concerning` how direct access should work for all parties.*
 
 For the second rule, we choose auxiliaries that have specific conditions, since we observed that most of the auxiliaries are predicates in the dataset. However, we noticed there are some exceptions when they are finite, which is indicated as ‘VerbForm==Fin’. Basically, those excluded auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
 
@@ -105,4 +107,5 @@ previous steps of the pipeline.
 
 ### References
 Carreras, X., & Màrquez, L. (2005, June). Introduction to the CoNLL-2005 shared task: Semantic role labeling. In Proceedings of the ninth conference on computational natural language learning (CoNLL-2005) (pp. 152-164).
+
 Xue, N., & Palmer, M. (2004, July). Calibrating features for semantic role labeling. In EMNLP (pp. 88-94).
