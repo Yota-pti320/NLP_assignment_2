@@ -93,8 +93,7 @@ All features are encoded by one-hot encoding.
 We use the LinearSVC implementation of SVM from Scikit-learn: 
 https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC. 
 We chose this algorithm because SVM has shown good performance on the SRL task 
-([Introduction to the CoNLL-2005 Shared Task: Semantic Role Labeling](https://aclanthology.org/W05-0620) 
-(Carreras & Màrquez, 2005)). 
+(Carreras & Màrquez, 2005). 
 
 #### 5. Training and test instances
 The algorithm is trained on only those instances from the training dataset that have been identified as arguments after 
