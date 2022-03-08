@@ -37,6 +37,9 @@ https://github.com/System-T/UniversalPropositions/tree/master/UP_English-EWT.
 Here, we describe the pipeline used in `main.py`.
 
 #### 1. Predicate and argument identification
+
+**(a) Predicate identification**
+
 Firstly, a rule-based system is deployed to identify predicates in the training and test datasets. Predicates are identified based on three rules explained below.
 
 For the first rule, we choose all verbs, since predicates are mostly verbs. However, verbs with ‘amod’, ‘case’ and ‘mark’ dependency relations are excluded because of the following reasons:
@@ -46,17 +49,19 @@ For the first rule, we choose all verbs, since predicates are mostly verbs. Howe
 
 2) verb + ’case’ will not act as predicate.
 
-   *`Following` on the heels of Ben’s announcement yesterday.*
+    *`Following` on the heels of Ben’s announcement yesterday.*
 
-3)  verb + ‘mark’ will not act as predicate.
+3)  verb + ‘mark’ will not act as predicate. 
 
-   *……rather than have a general rule `concerning` how direct access should work for all parties.*
+    *……rather than have a general rule `concerning` how direct access should work for all parties.*
 
 For the second rule, we choose auxiliaries that have specific conditions, since we observed that most of the auxiliaries are predicates in the dataset. However, we noticed there are some exceptions when they are finite, which is indicated as ‘VerbForm==Fin’. Basically, those excluded auxiliaries are ‘could’, ‘would’, ‘may’, ‘will’, ‘should’ etc. 
 
 For the third rule, we choose adjectives and adjective comparatives that have specific conditions. We observed that adjectives that have specified dependency relations, such as ‘acl’, ‘acl:relcl’, ‘advcl’, ‘ccomp’ and ‘xcomp’, are more likely to be predicates.
 
 The performance of the system is evaluated on the test dataset. 
+
+**(b) Argument identification**
 
 Then, a rule-based system is used to identify arguments for the predicates that were extracted in the first step. 
 This system operates on the following simple conditions:
